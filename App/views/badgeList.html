@@ -1,0 +1,55 @@
+<!-- 
+ * (C) Copyright 2016 CEFRIEL (http://www.cefriel.com/).
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * Contributors:
+ *     Andrea Fiano, Gloria Re Calegari, Irene Celino.
+ -->
+<div id="header" class="navbar-fixed-top">
+	<div class="container">
+		<div id="logo" class="col-xs-2">
+			<a href="" ng-click="goTo('/myprofile')"><img src="images/icona-back.png" alt="back"></a>
+		</div>
+		<div id="title" class="col-xs-8 text-center">
+			{{ 'BADGES' | translate }}			
+		</div>
+		<div id="menu" class="col-xs-2 text-right">
+			<div class="dropdown-toggle language-container" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> 
+				<span class="lang-sm" lang="{{langKey}}"></span>
+			</div>
+			<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">				
+				<li><a ng-click="changeLanguage('en')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'en' }" lang="en"></span></a></li>
+				<li><a ng-click="changeLanguage('it')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'it' }" lang="it"></span></a></li>
+			</ul>
+		</div>		
+	</div>	
+</div>
+<div class="container">	
+	<div class="col-md-10 col-md-offset-1">
+		<table id="table-badge" class="table table-star">
+			<tbody>
+				<tr ng-repeat="badge in badgeList | filter: timestamp " ng-class="{'disabled': badge.disabled }">
+					<td>
+						<!-- <img ng-src="{{badge.image}}" alt="{{badge.name}}"> -->
+					</td>
+					<td>
+						<span>{{ badge.name }}</span><br/>
+						{{ badge.value | translate }}
+					</td>
+					<td>{{ toDate(badge.timestamp) | date: 'shortDate' }}</td>					
+				</tr>   
+			</tbody>
+		</table>	
+	</div>	
+</div>

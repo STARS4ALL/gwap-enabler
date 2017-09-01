@@ -1,0 +1,27 @@
+<!-- 
+ * (C) Copyright 2016 CEFRIEL (http://www.cefriel.com/).
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * Contributors:
+ *     Andrea Fiano, Gloria Re Calegari, Irene Celino.
+ -->
+ <div class="text-center ngdialog-message">
+	<h3>{{ 'HOW_TO_PLAY_1' | translate }}</h3>
+	<i>{{'HOW_TO_PLAY_2' | translate}}</i>
+</div>
+
+<div class="ngdialog-buttons">
+	<input type="checkbox" ng-model="dontShowHelp"> {{ 'DONT_SHOW_AGAIN' | translate }}
+	<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeHowToPlay(dontShowHelp)"> OK </button>
+</div>

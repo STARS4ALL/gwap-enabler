@@ -1,0 +1,6 @@
+fgrosse/phpasn1 suggests installing php-curl (For loading OID information from the web if they have not bee defined statically)
+paragonie/random_compat suggests installing ext-libsodium (Provides a modern crypto API that can be used to generate random bytes.)
+spomky-labs/php-aes-gcm suggests installing ext-crypto (Highly recommended for better performance.)
+spomky-labs/jose suggests installing ext-crypto (Highly recommended when you use AES GCM based algorithms.)
+spomky-labs/jose suggests installing ext-curve25519 (For EdDSA with X25519 curves support.)
+spomky-labs/jose suggests installing ext-ed25519 (For EdDSA with Ed25519 curves support.)

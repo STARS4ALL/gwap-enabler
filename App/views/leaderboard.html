@@ -1,0 +1,138 @@
+<!-- 
+ * (C) Copyright 2016 CEFRIEL (http://www.cefriel.com/).
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * Contributors:
+ *     Andrea Fiano, Gloria Re Calegari, Irene Celino.
+ -->
+ <div id="header" class="navbar-fixed-top">
+	<div class="container">
+		<div id="logo" class="col-xs-2">
+			<a href="" ng-click="goTo('/myprofile')"><img src="images/icona-back.png" alt="back"></a>
+		</div>		
+		<div id="title" class="col-xs-8 text-center">
+			{{ 'LEADERBOARD' | translate }}
+		</div>
+		<div id="menu" class="col-xs-2 text-right">		
+			<div class="dropdown-toggle language-container" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> 
+				<span class="lang-sm" lang="{{langKey}}"></span>
+			</div>
+			<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">				
+				<li><a ng-click="changeLanguage('en')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'en' }" lang="en"></span></a></li>
+				<li><a ng-click="changeLanguage('it')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'it' }" lang="it"></span></a></li>
+			</ul>
+		</div>		
+	</div>	
+</div>
+<div id="leader-tab-container">
+	<div class="container">
+		<div class="col-md-10 col-md-offset-1">
+			<ul id="leader-tab" class="nav nav-tabs nav-justified">
+			  <li class="active"><a href="#overall" data-toggle="tab">{{ 'OVERALL' | translate | uppercase }}</a></li>
+			  <li><a href="#last10games" data-toggle="tab">{{ 'LAST_TEN_GAMES' | translate | uppercase }}</a></li>
+			</ul>
+		</div>		
+	</div>
+</div>
+<div class="container">
+	<div class="tab-content double-header">
+		<div role="tabpanel" class="tab-pane active" id="overall">
+			<div class="text-center rank1">		
+				{{ 'YOUR_RANKING_POSITION' | translate }}
+			</div>
+			<div class="text-center rank2">		
+				{{leaderboard.userScore.userPosition | number}}
+			</div>
+			<div class="text-center rank3">		
+				({{ 'TOTAL_POINTS' | translate }}: <span class="rank4">{{leaderboard.userScore.score | number}}</span>)		
+			</div>
+			<div class="col-md-10 col-md-offset-1 behind" infinite-scroll="increaseLimit1()" infinite-scroll-disabled="scrollDisabled1" infinite-scroll-distance="1">			
+				<table id="table-leader" class="table table-star">
+					<tbody>
+						<tr ng-repeat="user in leaderboard.topRank | limitTo: limit1" ng-class="{'light' : user.idUser == idUser}">
+							<td>
+								<span>{{user.userPosition | number}}</span>
+							</td>
+							<td>
+								<div class="relative">
+									<img ng-src="{{user.thumbnail}}" alt="{{user.social}}-profile" class="img-circle img-circle-{{user.social}}">
+									<img ng-src="images/icona-{{user.social}}.png" alt="{{user.social}}-icon" class="img-circle-social">
+								</div>											
+							</td>
+							<td>
+								{{user.userName}}
+							</td>
+							<td class="text-right">
+								<span>{{user.score | number}}</span>
+							</td>
+						</tr>			
+					</tbody>
+				</table>	
+			</div>	
+		</div>
+		<div role="tabpanel" class="tab-pane" id="last10games">
+			<div class="text-center rank1">		
+				{{ 'YOUR_RANKING_POSITION' | translate }}
+			</div>
+			<div ng-repeat="user in topTenRound | filter: { idUser: idUser } : true">
+				<div class="text-center rank2">					
+					{{user.position | number}}
+				</div>
+				<div class="text-center rank3">		
+					({{ 'TOTAL_POINTS' | translate }}: <span class="rank4">{{user.score | number}}</span>)		
+				</div>
+			</div>			
+			<div class="col-md-10 col-md-offset-1 behind" infinite-scroll="increaseLimit2()" infinite-scroll-disabled="scrollDisabled2" infinite-scroll-distance="1">
+				<table id="table-leader" class="table table-star">
+					<tbody>
+						<tr ng-repeat="user in topTenRound" ng-class="{'light' : user.idUser == idUser}">
+							<td>							
+								<span>{{user.position | number}}</span>
+							</td>
+							<td>
+								<div class="relative">
+									<img ng-src="{{user.thumbnail}}" alt="{{user.social}}-profile" class="img-circle img-circle-{{user.social}}">
+									<img ng-src="images/icona-{{user.social}}.png" alt="{{user.social}}-icon" class="img-circle-social">
+								</div>											
+							</td>
+							<td>
+								{{user.userName}}
+							</td>
+							<td class="text-right">
+								<span>{{user.score | number}}</span>
+							</td>
+						</tr>			
+					</tbody>
+				</table>	
+			</div>			
+		</div>	
+	</div>
+	
+	
+</div>
+<script>
+  $('#btnAll').on('click', function () {
+    $(this).toggleClass('btn-toggle-on btn-toggle-off');
+	$('#btnFriends').toggleClass('btn-toggle-on btn-toggle-off');
+  });
+  
+  $('#btnFriends').on('click', function () {
+    $(this).toggleClass('btn-toggle-on btn-toggle-off');
+	$('#btnAll').toggleClass('btn-toggle-on btn-toggle-off');
+  });
+  $('#leader-tab a').click(function (e) {
+	  e.preventDefault()
+	  $(this).tab('show')
+	})
+</script>

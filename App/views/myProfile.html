@@ -1,0 +1,97 @@
+<!-- 
+ * (C) Copyright 2016 CEFRIEL (http://www.cefriel.com/).
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * Contributors:
+ *     Andrea Fiano, Gloria Re Calegari, Irene Celino.
+ -->
+ <div id="header" class="navbar-fixed-top">
+	<div class="container">
+		<div id="logo" class="col-xs-2">
+			<a href="" ng-click="goTo('/home')" data-toggle="tooltip" data-placement="auto" title="{{ 'HOME' | translate}}"><img src="images/icona-home.png" alt="home"></a>			
+		</div>
+		<div id="title" class="col-xs-8 text-center">
+			APP
+		</div>
+		<div id="menu" class="col-xs-2 text-right">		
+			<img src="images/icona-puntini.png" alt="menu" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			<div class="dropdown-toggle language-container" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-show="!user"> 
+				<span class="lang-sm" lang="{{langKey}}"></span>
+			</div>
+			<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">				
+				<li><a ng-click="changeLanguage('en')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'en' }" lang="en"></span></a></li>
+				<li><a ng-click="changeLanguage('it')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'it' }" lang="it"></span></a></li>
+				<li role="separator" class="divider" ng-show="user && user != 'GUEST'"></li>
+				<li><a ng-click="changeUser(user)" href="" ng-show="user && user != 'GUEST'">{{ 'LOGOUT' | translate }}</a></li>				
+			</ul>
+		</div>
+	</div>	
+</div>
+<div class="container">
+	<div id="home">
+		<div class="thumbnail no-margin-top">
+			<img ng-src="{{userCover ? userCover : 'images/image-cover-default.jpg'}}" alt="social-cover" class="full">
+		</div>
+		<div id="social-logo">
+			<img src="images/icona-{{SocialNetwork}}.png" alt="icona-facebook" ng-show="SocialNetwork && SocialNetwork != 'anonymous'">
+		</div>
+		<div id="hover-cover"></div>
+		<div id="name">{{userName | uppercase}}</div>
+		<div id="icona-img">
+			<a href="" ng-click="goTo('/achievements')" data-toggle="tooltip" data-placement="auto" title="{{ 'YOUR_PICTURES' | translate }}"><img src="images/icona-img.png" alt="icona-img">
+			</a>
+		</div>		
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<div ng-click="goTo('/leaderboard')" id="panel-leaderboard" class="panel-home text-center">
+				<div class="panel-home-title">{{ 'LEADERBOARD' | translate }}</div>
+				<div class="col-xs-6">
+					<span class="panel-home-rank">{{rankLeaderboard}}</span><br/>
+					{{ 'OVERALL' | translate }}
+				</div>
+				<div class="col-xs-6">
+					<span class="panel-home-rank">{{rankTopten}}</span><br/>
+					{{ 'LAST_TEN_GAMES' | translate }}
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-md-6">
+			<div ng-click="goTo('/badgelist')" id="panel-badges" class="panel-home text-center">
+				<div class="panel-home-title">{{ 'LAST_BADGES' | translate }}</div>
+				<div class="col-xs-4" ng-repeat="badge in userBadges | filter: { timestamp : '' } | limitTo: 3">{{badge.name}}</div>
+			</div>
+		</div>
+	</div>	
+	<div class="row">
+			<button ng-click="startgame()" class="btn btn-block btn-star">{{ 'START_GAME' | translate }}</button>
+	</div>
+			
+	<div class="row">
+		<div class="col-xs-4 text-right">
+			<a href="" ng-click="goTo('/help')" class="login-link">{{ 'HOW_TO_PLAY' | translate }}</a>
+		</div>
+		<div class="col-xs-4 text-center">
+			<a href="" ng-click="goTo('/credits')" class="login-link">{{ 'CREDITS' | translate }}</a>
+		</div>
+		<div class="col-xs-4 text-left"> 
+			<a href="" ng-click="goTo('/privacy')" class="login-link">{{ 'PRIVACY_POLICY' | translate }}</a>
+		</div>			
+	</div>
+</div>
+<script>
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	})
+</script>

@@ -1,0 +1,93 @@
+<!-- 
+ * (C) Copyright 2016 CEFRIEL (http://www.cefriel.com/).
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * Contributors:
+ *     Andrea Fiano, Gloria Re Calegari, Irene Celino.
+ -->
+ 
+ <!DOCTYPE html>
+<html ng-app="gwap">
+<head>
+<title>GWAP enabler</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<base href="/gwap-enabler/app/"/>
+
+<!-- CSS -->
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/languages.min.css" rel="stylesheet">
+<link href="css/ngDialog.min.css" rel="stylesheet" />
+<link href="css/ngDialog-theme-default.min.css" rel="stylesheet" />
+<link href="css/ngDialog-theme-plain.min.css" rel="stylesheet" />
+<link href="css/ngDialog-custom-width.css" rel="stylesheet" />
+<link href="css/site.css" rel="stylesheet">
+
+<!-- LIB JS -->
+
+<script src="js/lib/jquery-3.1.0.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/lib/angular.min.js"></script>
+<script src="js/lib/angular-route.js"></script>
+<script src="js/lib/angular-cookies.js"></script>
+<script src="js/lib/hello.all.min.js"></script>
+<script src="js/lib/ng-infinite-scroll.min.js"></script>
+<script src="js/lib/angular-translate.min.js"></script>
+<script src="js/lib/angular-translate-loader-static-files.min.js"></script>
+<script src="js/lib/tmhDynamicLocale.min.js"></script>
+<script src="js/lib/ngDialog.min.js"></script>
+
+<!-- JS -->
+
+<script src="js/app.js"></script>
+<script src="js/controllers/gwap.js"></script>
+
+<script src="js/controllers/badgeList.js"></script>
+<script src="js/controllers/leaderboard.js"></script>
+<script src="js/controllers/leaderboardByTime.js"></script>
+<script src="js/controllers/myProfile.js"></script>
+<script src="js/controllers/pictureList.js"></script>
+<script src="js/controllers/evaluation.js"></script>
+
+<script src="js/services/gwapService.js"></script>
+
+</head>
+<body  ng-controller="gwapCtrl">  <!-- ng-controller="gwapCtrl" -->
+
+	<div id="view">
+		<div ng-view></div>
+	</div>  
+
+	<script>
+		hello.init(
+		  {
+			facebook: "facebook_client_ID",
+			twitter: "twitter_client_ID",
+			google: "google_client_ID"
+		  },
+		  {
+			  display : 'popup'
+		  },
+		  {
+			  oauth_proxy : 'https://auth-server.herokuapp.com/proxy'
+		  },
+		  {
+			redirect_uri:'index.html'
+		  }
+		);
+    </script>
+</body>
+</html>

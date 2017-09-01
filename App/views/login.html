@@ -1,0 +1,84 @@
+<!-- 
+ * (C) Copyright 2016 CEFRIEL (http://www.cefriel.com/).
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * Contributors:
+ *     Andrea Fiano, Gloria Re Calegari, Irene Celino.
+ -->
+ <div id="header" class="navbar-fixed-top">
+	<div class="container">	
+		<div id="logo" class="col-xs-2">
+			<a href="" ng-click="goTo('/home')" data-toggle="tooltip" data-placement="auto" title="{{ 'HOME' | translate}}"><img src="images/icona-home.png" alt="home"></a>			
+		</div>
+		<div id="title" class="col-xs-8 text-center">
+			APP
+		</div>
+		<div id="menu" class="col-xs-2 text-right">						
+			<div class="dropdown-toggle language-container" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> 
+				<span class="lang-sm" lang="{{langKey}}"></span>
+			</div>
+			<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">				
+				<li><a ng-click="changeLanguage('en')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'en' }" lang="en"></span></a></li>
+				<li><a ng-click="changeLanguage('it')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'it' }" lang="it"></span></a></li>
+			</ul>
+		</div>		
+	</div>	
+</div>
+<div class="container">
+	
+	
+	<div class="row">
+		<br/>
+		<div class="col-xs-12 col-md-6 col-md-offset-3">
+				<button ng-click="setUser('anonymous')" class="btn btn-block btn-login btn-login-anonymous">{{ 'GO_ON_ANONYMOUSLY' | translate }}</button>
+		</div>
+		<div id="or" class="col-xs-12 col-md-6 col-md-offset-3 text-center">
+			{{ 'OR' | translate }}
+		</div>		
+		<div class="col-xs-12 col-md-6 col-md-offset-3">
+			<div class="grid-btn-login">
+				<button ng-click="setUser('facebook')" class="btn btn-block btn-login btn-login-fb"><img class="btn-login-icon" src="images/icona-facebook-login-25.png" alt="icona-facebook login">{{ 'LOGIN_WITH_FACEBOOK' | translate }}</button>
+			</div>
+		</div>
+		<div class="col-xs-12 col-md-6 col-md-offset-3">
+			<div class="grid-btn-login">
+				<button ng-click="setUser('google')" class="btn btn-block btn-login btn-login-gplus"><img class="btn-login-icon" src="images/icona-gplus-login-25.png" alt="icona-gplus login">{{ 'SIGN_IN_WITH_GOOGLE' | translate }}</button>
+			</div>			
+		</div>
+		<div class="col-xs-12 col-md-6 col-md-offset-3">
+			<div class="grid-btn-login">
+				<button ng-click="setUser('twitter')" class="btn btn-block btn-login btn-login-twitter"><img class="btn-login-icon" src="images/icona-twitter-login-25.png" alt="icona-twitter login">{{ 'LOGIN_WITH_TWITTER' | translate }}</button>
+			</div>			
+		</div>
+	</div>
+	
+	<div class="row">
+		<div id="login" class="col-xs-12 col-md-6 col-md-offset-3 text-center">
+			{{ 'LOGIN_1' | translate }}<br/><br/>
+			{{ 'LOGIN_2' | translate }}<a href="" ng-click="goTo('/privacy')" >{{ 'LOGIN_3' | translate }}</a>.
+		</div>	
+	</div>
+	
+	<div class="row">
+		<div class="col-xs-4 text-right">
+			<a href="" ng-click="goTo('/help')" class="login-link">{{ 'HOW_TO_PLAY' | translate }}</a>
+		</div>
+		<div class="col-xs-4 text-center">
+			<a href="" ng-click="goTo('/credits')" class="login-link">{{ 'CREDITS' | translate }}</a>
+		</div>
+		<div class="col-xs-4 text-left"> 
+			<a href="" ng-click="goTo('/privacy')" class="login-link">{{ 'PRIVACY_POLICY' | translate }}</a>
+		</div>			
+	</div>
+</div>

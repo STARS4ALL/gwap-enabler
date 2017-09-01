@@ -1,0 +1,84 @@
+<!-- 
+ * (C) Copyright 2016 CEFRIEL (http://www.cefriel.com/).
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * Contributors:
+ *     Andrea Fiano, Gloria Re Calegari, Irene Celino.
+ -->
+<div id="header" class="navbar-fixed-top">
+	<div class="container">
+		<div id="logo" class="col-xs-2">
+			<a href="" ng-click="goTo('/myprofile')"><img src="images/icona-myprofile.png" alt="myprofile"></a>
+		</div>
+		<div id="title" class="col-xs-8 text-center">
+			{{ 'RESULTS' | translate }}
+		</div>
+		<div id="menu" class="col-xs-2 text-right">		
+			<div class="dropdown-toggle language-container" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> 
+				<span class="lang-sm" lang="{{langKey}}"></span>
+			</div>
+			<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+				<li><a ng-click="changeLanguage('en')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'en' }" lang="en"></span></a></li>
+				<li><a ng-click="changeLanguage('it')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'it' }" lang="it"></span></a></li>
+				<li role="separator" class="divider" ng-show="user && user != 'GUEST'"></li>
+				<li><a ng-click="changeUser(user)" href="" ng-show="user && user != 'GUEST'">{{ 'LOGOUT' | translate }}</a></li>				
+			</ul>
+		</div>		
+	</div>	
+</div>
+<div class="container">	
+	<div  id="over" class="text-center col-xs-10 col-xs-offset-1 loud">
+		{{ 'GAME_OVER' | translate }}
+	</div>
+	<div  id="result" class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
+		<table id="table-result" class="table table-star">
+			<tbody>
+				<tr>
+					<th>{{ 'POINTS_CAMEL' | translate }}</th>
+					<td>{{score | number}}</td>
+				</tr>
+				<tr>
+					<th>{{ 'PICTURES_CAMEL' | translate }}</th>
+					<td>{{currentPage.level}}</td>
+				</tr>
+				<tr>
+					<th>{{ 'RANKING_CAMEL' | translate }}</th>
+					<td>{{leaderboard | number}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div ng-show="SocialNetwork && SocialNetwork != 'anonymous'">
+			<div class="game-over-message text-center" ng-show="leaderboard == 1 && leaderboard != prevLeaderboard">
+				{{ 'YOU_ARE_THE_LEADER' | translate }}
+			</div>			
+			<div class="game-over-message text-center" ng-show="topten == 1 && topten != prevTopten">
+				{{ 'YOU_ARE_THE_FIRST' | translate }}
+			</div>	
+			<div class="game-over-message text-center" ng-show="newBadge.length > 0">
+				{{ 'YOU_WON_A_BADGE' | translate }}
+			</div>
+			<div class="game-over-message text-center" ng-show="missingPoints != null">
+				{{ 'MISSING_POINTS_1' | translate }} {{missingPoints}} {{ 'MISSING_POINTS_2' | translate }}
+			</div>
+		</div>				
+	</div>
+	<button ng-click="startgame()" class="btn btn-block btn-star">{{ 'NEW_GAME' | translate }}</button>
+	<div ng-show="SocialNetwork && SocialNetwork == 'anonymous'">
+		<br/>
+		<div id="login" class="col-xs-12 col-md-6 col-md-offset-3 text-center">
+			{{ 'YOU_PLAYED_AS_GUEST' | translate }}
+		</div>
+		<button ng-click="goTo('/login')" class="btn btn-block btn-star">{{ 'LOGIN' | translate }}</button>
+	</div>
+</div>

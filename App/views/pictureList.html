@@ -1,0 +1,60 @@
+<div id="header" class="navbar-fixed-top">
+	<div class="container">
+		<div id="logo" class="col-xs-2">
+			<a href="" ng-click="goTo('/myprofile')"><img src="images/icona-back.png" alt="back"></a>
+		</div>
+		<div id="title" class="col-xs-8 text-center">
+			{{ 'YOUR_PICTURES' | translate | uppercase }}
+		</div>
+		<div id="menu" class="col-xs-2 text-right"> <!-- nav navbar-nav navbar-right dropdown -->			
+			<!-- <img src="images/icona-puntini.png" alt="menu" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> -->
+			<div class="dropdown-toggle language-container" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> 
+				<span class="lang-sm" lang="{{langKey}}"></span>
+			</div>
+			<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">				
+				<li><a ng-click="changeLanguage('en')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'en' }" lang="en"></span></a></li>
+				<li><a ng-click="changeLanguage('it')"><span class="lang-sm lang-lbl" ng-class="{ 'bold': langKey == 'it' }" lang="it"></span></a></li>
+			</ul>
+			<!-- <div id="beta-container"><img id="beta-img" ng-src="img/beta.png" alt="beta-version"></div> -->
+		</div>		
+	</div>	
+</div>
+<div class="container" infinite-scroll="increaseLimit()" infinite-scroll-disabled="scrollDisabled" infinite-scroll-distance="1">
+	<div class="col-xs-6 col-md-3" ng-repeat="picture in pictureList | limitTo : limit">			
+		<div class="thumbnail">
+			<a href="" data-toggle="modal" data-target="#imagemodal">
+				<img ng-src="{{picture.url}}" data-refurl="{{picture.refUrl}}" alt="">
+			</a>
+		</div>
+	</div>
+	
+	<div class="modal" id="imagemodal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog img-preview">	  
+		  <a href="" data-dismiss="modal" class="close-right"><img src="images/icona-close.png" alt="close"></a>			  
+		  <div class="thumbnail">
+			<img src="" id="imagepreview">
+		  </div>
+		  <a id="imagedownload" href="" target="_blank" type="button" class="btn btn-block btn-star">{{ 'DOWNLOAD_FROM_NASA' | translate }}</a>
+	  </div>
+	</div>
+	
+</div>
+<script>
+	
+	$('#imagemodal').on('show.bs.modal', function (e) {
+		var target = $(e.relatedTarget)
+		var img = target.find('img')
+		var source = $(img).attr('src')			
+		var url = $(img).attr('data-refurl')			
+		var modal = $(this)
+		modal.find('#imagepreview').attr('src', source)
+		modal.find('#imagedownload').attr('href', url)
+	})
+	
+	$('#imagemodal').on('hidden.bs.modal', function (e) {			
+		var modal = $(this)
+		modal.find('#imagepreview').attr('src', '')
+		modal.find('#imagedownload').attr('href', '')
+	})
+	
+</script>

@@ -1,0 +1,92 @@
+<!-- 
+ * (C) Copyright 2016 CEFRIEL (http://www.cefriel.com/).
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * Contributors:
+ *     Andrea Fiano, Gloria Re Calegari, Irene Celino.
+ -->
+<div id="header" class="navbar-fixed-top">
+	<div class="container">	
+		<div id="title" class="col-xs-8 col-xs-offset-2 text-center">
+			{{ 'GAME' | translate }}
+		</div>
+		<div class="col-xs-2">		
+			<!-- <div id="beta-container"><img id="beta-img" ng-src="img/beta.png" alt="beta-version"></div> -->
+		</div>			
+	</div>	
+</div>
+<div class="container" ng-show="!loading">  <!-- no-header -->
+	<div id="game">
+		<div class="row">	
+			<div class="col-xs-4 text-center">
+				<label class="game">
+					{{ 'POINTS' | translate }}
+				</label>
+				<br/>
+				<span class="game-value">{{score | number}}</span>	
+			</div>
+			<div class="col-xs-4 text-center">
+				<label class="game">
+					{{ 'TIME' | translate }}
+				</label>
+				<br/>
+				<span class="game-value-time">{{counter}}</span>
+			</div>
+			<div class="col-xs-4 text-center">
+				<label class="game">
+					{{ 'PICTURES' | translate }}
+				</label>
+				<br/>
+				<span class="game-value">{{currentPage.level}}</span>			
+			</div>		
+		</div>
+	</div>
+	
+	<div class="text-justify no-images" ng_show="data.resource && data.resource.length == 0">{{ 'NOT_ENOUGH_IMAGES' | translate }}</div>
+	
+	<div id="game-picture">
+		<div class="thumbnail">
+			<img ng-src="{{currentPage.url}}" alt="">
+			<img id="img-right" ng-style="{'visibility': showAnswerResult == 2 ? 'visible' : 'hidden'}" src="images/icona-right-answer.png" class="img-answer" alt="icona-right answer">
+			<img id="img-wrong" ng-style="{'visibility': showAnswerResult == 0 ? 'visible' : 'hidden'}" src="images/icona-wrong-answer.png" class="img-answer" alt="icona-wrong answer">
+		</div>	
+	</div>	
+
+	<div id="game-answer">
+		<div class="partner-agreements text-center" ng-show="showAnswerResult == 2 && consecutiveAnswer > 1">{{consecutiveAnswer}} {{ 'CONSECUTIVE_AGREEMENTS' | translate }}</div>
+		<div id="pnl-right" class="partner-affinity text-center" ng-show="showAnswerResult == 2">{{ 'GREAT_UNDERSTANDING' | translate }}</div>
+		<div id="pnl-wrong" ng-show="showAnswerResult == 0">
+			<div class="partner-affinity text-center">{{ 'BAD_LUCK' | translate }}</div>
+			<div id="your-partner-label" class="text-center">
+				{{ 'YOUR_PARTNER_ANSWERED' | translate }}</br>
+				<span id="your-partner-value">{{answerLabel | translate}}</span>
+			</div>
+		</div>		
+		<button ng-click="nextLevelButton()" ng-show="showAnswerResult != null" id="btn-next" class="btn btn-block btn-star">{{ 'NEXT' | translate }}</button>		
+	</div>
+	<div id="pnl-choices" ng-show="showAnswerResult == null">
+
+		<div class="col-md-4 col-xs-6" ng-repeat="game in currentPage.games">
+			<div class="grid-btn">
+				<button ng-class="{'selected' : game.idTopic == selectedIndex}" ng-click="itemClicked(game)" ng-disabled="value.length==1" class="btn btn-block btn-grid">{{game.value | translate}}</button>
+			</div>
+		</div>
+	</div>	
+
+</div>
+<script>
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	})
+</script>

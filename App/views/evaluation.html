@@ -1,0 +1,80 @@
+<!-- 
+ * (C) Copyright 2016 CEFRIEL (http://www.cefriel.com/).
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * Contributors:
+ *     Andrea Fiano, Gloria Re Calegari, Irene Celino.
+ -->
+<div class="col-lg-12 text-center v-center">
+
+<h2> Game Evaluation </h2>
+<table class="table">
+	<thead>  
+	  <tr>  
+		<th class="text-left">Quantity</th>
+		<th class="text-right">Value</th>  
+		<th class="text-left">Unit of measure</th>  
+	  </tr>  
+	</thead>  
+	<tbody>  
+	  <tr>
+	  <tr>
+		<td class="text-left">N° Of Players</td>
+		<td class="text-right">{{evaluation.nOfPlayer}}</td>
+		<td class="text-left">#</td>
+	  </tr>
+	  <tr>
+		<td class="text-left">Total Played Time</td>
+		<td class="text-right">{{evaluation.totalLifePlayddHHmmss}}</td>
+		<td class="text-left">d HH:mm:ss</td>
+	  </tr>
+	  <tr>
+		<td class="text-left">N° Of Completed Tasks</td>
+		<td class="text-right">{{evaluation.completedTasks}}</td>
+		<td class="text-left">#</td>
+	  </tr>
+	  <tr>
+		<td class="text-left">N° Of Started Tasks</td>
+		<td class="text-right">{{evaluation.startedTasks}}</td>
+		<td class="text-left">#</td>
+	  </tr>
+	  <tr>
+		<td class="text-left">Total N° Of Tasks</td>
+		<td class="text-right">{{evaluation.totalTasks}}</td>
+		<td class="text-left">#</td>
+	  </tr>	  
+	  <tr>
+		<td class="text-left">Completion rate</td>
+		<td class="text-right">{{evaluation.completion}}</td>
+		<td class="text-left">%</td>
+	  </tr>
+	  <tr>
+		<td class="text-left">Throughput</td>
+		<td class="text-right">{{evaluation.throughput}}</td>
+		<td class="text-left">solved tasks/hour</td>
+	  </tr> 
+	  <tr>
+		<td class="text-left">ALP (Average Life Play)</td>
+		<td class="text-right">{{evaluation.alp}}</td>
+		<td class="text-left">minutes/player</td>
+	  </tr>
+	  <tr>
+		<td class="text-left">Expected contribution</td>
+		<td class="text-right">{{evaluation.contribution}}</td>
+		<td class="text-left">solved tasks/player</td>
+	  </tr>	  
+	</tbody>  
+</table>
+
+</div>

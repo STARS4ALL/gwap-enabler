@@ -1,0 +1,9 @@
+# Disable the server signature 
+ServerSignature Off
+# Prevent access to .htaccess
+<Files .htaccess>
+	#Order allow, deny
+	Deny from all
+</Files>
+# Disable unauthorized directory browsing 
+Options All -Indexes
