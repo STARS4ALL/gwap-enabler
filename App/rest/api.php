@@ -1,28 +1,27 @@
 <?php
-
 /* 
-	This is an example class script proceeding secured API
-	To use this class you should keep same as query string and function name
-	Ex: If the query string value rquest=delete_user Access modifiers doesn't matter but function should be
-		 function delete_user(){
-			 You code goes here
-		 }
-	Class will execute the function dynamically;
-	
-	usage :
-	
-		$object->response(output_data, status_code);
-		$object->_request	- to get santinized input 	
-		
-		output_data : JSON (I am using)
-		status_code : Send status message for headers
-*/
-
-//include 'db_connect.php';
+ * (C) Copyright 2017 CEFRIEL (http://www.cefriel.com/).
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * Contributors:
+ *     Andrea Fiano, Gloria Re Calegari, Irene Celino.
+ */
 
 include ("Rest.inc.php");
 include '../api/jwt.php';
 include_once '../secret/globals.php';
+include '../api/functions.php';
 
 class API extends REST {
 
@@ -39,7 +38,6 @@ class API extends REST {
 	/*
 	 *  Database connection 
 	*/
-	
 	private function dbConnect(){
 
 		$DB_NAME = $GLOBALS['DB_NAME'];
@@ -47,7 +45,6 @@ class API extends REST {
 		$DB_USER = $GLOBALS['DB_USER'];
 		$DB_PASS = $GLOBALS['DB_PASS'];
 			
-		//$this->mysqli = new mysqli($this->DB_HOST, $this->DB_USER, $this->DB_PASS, $this->DB_NAME);
 		$this->mysqli = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 		$this->mysqli->set_charset("utf8");
 	}
@@ -56,7 +53,7 @@ class API extends REST {
 	/*
 	 * Public method for access api.
 	 * This method dynmically call the method based on the query string
-	 *
+	 * Author : Arun Kumar Sekar
 	 */
 	public function processApi(){
 		
@@ -75,6 +72,66 @@ class API extends REST {
 			$this->response('',404);
 	}
 	
+	private function tasks(){					
+		$return = array();
+	
+		// Cross validation if the request method is POST else it will return "Not Acceptable" status
+		if($this->get_request_method() != "POST"){
+			$return['status'] = 405;
+			$return['error'] = 'Method Not Allowed';
+			
+			$this->response($this->json($return),405);
+		}
+		
+		$resourceId = null;
+		if(isset($this->_request->resourceId)) {
+			$resourceId = (string)$this->_request->resourceId;
+		} else {
+			$return['status'] = 500;
+			$return['error'] = 'Missing parameter resourceId';
+			
+			$this->response($this->json($return),500);
+		}
+		
+		$label = null;
+		if(isset($this->_request->label)) {
+			$label = (string)$this->_request->label;
+		}
+			
+		$lat = null;
+		if(isset($this->_request->lat)) {
+			$lat = (string)$this->_request->lat;
+		}
+		
+		$long = null;
+		if(isset($this->_request->long)) {
+			$long = (string)$this->_request->long;
+		}
+		
+		$url = null;
+		if(isset($this->_request->url)) {
+			$url = (string)$this->_request->url;
+		}
+		
+		$result = createTask($this->mysqli, $resourceId, $label, $lat, $long, $url);
+
+		mysqli_close($this->mysqli);
+
+		
+		if($result == "OK") {						
+			$return['resourceId'] = $resourceId;
+			$return['label'] = $label;			
+			$return['lat'] = $lat;
+			$return['long'] = $long;			
+			$return['url'] = $url;				
+			$this->response($this->json($return), 201);
+		} else {
+			$return['status'] = 500;
+			$return['error'] = 'An error occurred: ' .$result;
+		}
+		$this->response($this->json($return),500);
+	}
+	
 	private function solvedTasks(){
 		$return = array();
 		
@@ -90,8 +147,6 @@ class API extends REST {
 		if(isset($this->_request['timestamp'])) {
 			$timestamp = $this->_request['timestamp'];
 		}
-		
-		include '../api/functions.php';
 
 		$solvedTasks = array();
 
@@ -102,7 +157,7 @@ class API extends REST {
 		$this->response($this->json($solvedTasks), 200);
 	}
 
-	private function solvedTasksCount(){
+	private function solutionLinks() {
 		$return = array();
 		
 		// Cross validation if the request method is GET else it will return "Not Acceptable" status
@@ -117,79 +172,16 @@ class API extends REST {
 		if(isset($this->_request['timestamp'])) {
 			$timestamp = $this->_request['timestamp'];
 		}
-		
-		include '../api/functions.php';
 
-		$solvedTasksCount = array();
+		$solvedTasks = array();
 
-		$solvedTasksCount = getSolvedTasksCount($this->mysqli, $timestamp);
+		$solvedTasks = getSolutionLinks($this->mysqli, $timestamp);
 		
-		mysqli_close($this->mysqli);
-	
-		$this->response($this->json($solvedTasksCount), 200);
-	}	
-	
-	private function tasks(){					
-		$return = array();
-	
-		// Cross validation if the request method is POST else it will return "Not Acceptable" status
-		if($this->get_request_method() != "POST"){
-			$return['status'] = 405;
-			$return['error'] = 'Method Not Allowed';
-			
-			$this->response($this->json($return),405);
-		}
+		mysqli_close($this->mysqli);		
 		
-		$taskId = null;
-		if(isset($this->_request->taskId)) {
-			$taskId = (string)$this->_request->taskId;
-		} else {
-			$return['status'] = 500;
-			$return['error'] = 'Missing parameter taskId';
-			
-			$this->response($this->json($return),500);
-		}
-		
-		$smallPhotoUrl = null;
-		if(isset($this->_request->smallPhotoUrl)) {
-			$smallPhotoUrl = (string)$this->_request->smallPhotoUrl;
-		} else {
-			$return['status'] = 500;
-			$return['error'] = 'Missing parameter smallPhotoUrl';
-			
-			$this->response($this->json($return),500);
-		}
-					
-		$nasaPageUrl = null;
-		if(isset($this->_request->nasaPageUrl)) {
-			$nasaPageUrl = (string)$this->_request->nasaPageUrl;
-		} else {
-							$return['status'] = 500;
-			$return['error'] = 'Missing parameter nasaPageUrl';
-			
-			$this->response($this->json($return),500);
-		}
-		
-		include '../api/functions.php';
-
-		$result = createTask($this->mysqli, $taskId, $smallPhotoUrl, $nasaPageUrl);
-
-		mysqli_close($this->mysqli);
-
-		
-		if($result == "OK") {				
-			// If success everythig is good send header as "OK" and return list of users in JSON format				
-			$return['taskId'] = $taskId;
-			$return['smallPhotoUrl'] = $smallPhotoUrl;
-			$return['nasaPageUrl'] = $nasaPageUrl;				
-			$this->response($this->json($return), 201);
-		} else {
-			$return['status'] = 500;
-			$return['error'] = 'An error occurred: ' .$result;
-		}
-		$this->response($this->json($return),500);
+		$this->response($this->json($solvedTasks), 200);
 	}
-
+	
 	private function undoneTasks(){
 		$return = array();
 		
@@ -200,8 +192,6 @@ class API extends REST {
 			
 			$this->response($this->json($return),405);
 		}
-		
-		include '../api/functions.php';
 
 		$undoneTask = array();
 
@@ -210,59 +200,7 @@ class API extends REST {
 		mysqli_close($this->mysqli);
 	
 		$this->response($this->json($undoneTask), 200);
-	}		
-	
-	private function timeleaderboard(){					
-		$return = array();
-	
-		// Cross validation if the request method is POST else it will return "Not Acceptable" status
-		if($this->get_request_method() != "POST"){
-			$return['status'] = 405;
-			$return['error'] = 'Method Not Allowed';
-			
-			$this->response($this->json($return),405);
-		}
-		
-		$fromUTC = isset($this->_request->startDateUTC) ? $this->_request->startDateUTC : null;
-		$toUTC = isset($this->_request->endDateUTC) ? $this->_request->endDateUTC : null;		
-
-		include '../api/functions.php';
-		
-		$leaderboardByTime = array();
-		
-		$leaderboardByTime = leaderboardByTime($this->mysqli, $fromUTC, $toUTC);
-
-		mysqli_close($this->mysqli);
-		
-		$this->response($this->json($leaderboardByTime), 200);		
 	}
-	
-	private function doneTasks(){
-		$return = array();
-		
-		// Cross validation if the request method is GET else it will return "Not Acceptable" status
-		if($this->get_request_method() != "GET"){
-			$return['status'] = 405;
-			$return['error'] = 'Method Not Allowed';
-			
-			$this->response($this->json($return),405);
-		}
-		
-		$timestamp = null;
-		if(isset($this->_request['timestamp'])) {
-			$timestamp = $this->_request['timestamp'];
-		}
-		
-		include '../api/functions.php';
-
-		$chosenTasks = array();
-
-		$chosenTasks = getChosenTasks($this->mysqli, $timestamp);
-		
-		mysqli_close($this->mysqli);
-		
-		$this->response($this->json($chosenTasks), 200);
-	}	
 	
 	private function evaluation(){
 		$return = array();
@@ -274,8 +212,6 @@ class API extends REST {
 			
 			$this->response($this->json($return),405);
 		}
-				
-		include '../api/functions.php';
 
 		$evaluation = array();
 
@@ -285,10 +221,10 @@ class API extends REST {
 		
 		$this->response($this->json($evaluation), 200);
 	}
+
 }
 
 // Initiiate Library
-
 $api = new API;
 $api->processApi();
 ?>

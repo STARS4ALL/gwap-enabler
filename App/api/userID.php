@@ -31,7 +31,7 @@ $social = $request->social;
 $name = isset($request->name) ? $request->name : '';
 $thumbnail = isset($request->thumbnail) ? $request->thumbnail : '';
 $cover = isset($request->cover) ? $request->cover : '';
-$access_token = isset($request->access_token) ? $request->access_token : '';
+//$access_token = isset($request->access_token) ? $request->access_token : ''
 
 $select_user = "SELECT idUser FROM user WHERE idSocial = '$idSocial' AND social = '$social'";
 $result = $mysqli->query($select_user) or die($mysqli->error.__LINE__);
@@ -46,7 +46,7 @@ if($result->num_rows > 0) {
 		$user["cover"] = "".$cover."";
 	}
 
-	$update_user = $mysqli->query("UPDATE user SET firstName = '$firstName', lastName = '$lastName', name = '$name', cover = '$cover', thumbnail = '$thumbnail', access_token = '$access_token'
+	$update_user = $mysqli->query("UPDATE user SET firstName = '$firstName', lastName = '$lastName', name = '$name', cover = '$cover', thumbnail = '$thumbnail'
 						 WHERE idSocial = '$idSocial' AND social = '$social'");
 						 
 	if($update_user){
@@ -58,8 +58,8 @@ if($result->num_rows > 0) {
 }
 else
 {
-	$insert_user = $mysqli->query("INSERT INTO user (firstName, lastName, reputation, idSocial, social, name, cover, thumbnail, access_token) 
-									VALUES ('$firstName', '$lastName', '1', '$idSocial', '$social', '$name', '$cover', '$thumbnail', '$access_token')");
+	$insert_user = $mysqli->query("INSERT INTO user (firstName, lastName, idSocial, social, name, cover, thumbnail) 
+									VALUES ('$firstName', '$lastName', '$idSocial', '$social', '$name', '$cover', '$thumbnail')");
 
 	if($insert_user){
 		if($mysqli->affected_rows > 0){
@@ -75,7 +75,8 @@ else
 
 $role = 'GUEST'; //GUEST, USER, ADMIN
 if(count($user) > 0) {	
-	if($access_token != '') {
+	//if($access_token != '') {
+	if($social != 'anonymous') {
 		$role = 'USER';
 	}	
 	$jwt = generateToken($user, $role);	

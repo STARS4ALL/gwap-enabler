@@ -54,19 +54,6 @@ CREATE TABLE `badge` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `badge_has_prize`
---
-
-DROP TABLE IF EXISTS `badge_has_prize`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `badge_has_prize` (
-  `idBadge` int(11) NOT NULL,
-  `idPrize` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `configuration`
 --
 
@@ -75,12 +62,15 @@ DROP TABLE IF EXISTS `configuration`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `configuration` (
   `idParameters` int(11) NOT NULL AUTO_INCREMENT,
-  `upperThreshold` float DEFAULT NULL,
+  `upperThreshold` float NOT NULL,
   `lowerThreshold` float DEFAULT NULL,
-  `positiveK` float DEFAULT NULL,
+  `positiveK` float NOT NULL,
   `negativeK` float DEFAULT NULL,
-  `nOfLevels` int(11) DEFAULT NULL,
-  `maxScore` int(11) DEFAULT NULL,
+  `nOfLevels` int(11) NOT NULL,
+  `nOfGT` int(11) NOT NULL,
+  `levelPoints` int(11) NOT NULL,
+  `consecutiveLevelPoints` int(11) NOT NULL,
+  `reputationParam` int(11) NOT NULL,
   PRIMARY KEY (`idParameters`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -132,11 +122,11 @@ CREATE TABLE `logging` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idRound` int(11) NOT NULL,
   `idLevel` int(11) DEFAULT NULL,
-  `distractor` bit(1) DEFAULT NULL,
-  `choosen` bit(1) DEFAULT NULL,
+  `partnerChosen` bit(1) DEFAULT NULL,
+  `chosen` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IX_idResource` (`idResource`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,11 +138,11 @@ DROP TABLE IF EXISTS `resource`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `resource` (
   `idResource` int(16) NOT NULL AUTO_INCREMENT,
-  `refId` varchar(45) DEFAULT NULL,
+  `refId` varchar(128) NOT NULL,
+  `label` varchar(45) DEFAULT NULL,
   `lat` double DEFAULT NULL,
-  `lng` double DEFAULT NULL,
+  `long` double DEFAULT NULL,
   `url` varchar(256) DEFAULT NULL,
-  `refUrl` varchar(246) DEFAULT NULL,
   `orderBy` double DEFAULT NULL,
   PRIMARY KEY (`idResource`),
   KEY `idx_resource_refId` (`refId`)
@@ -203,8 +193,9 @@ DROP TABLE IF EXISTS `topic`;
 CREATE TABLE `topic` (
   `idTopic` int(16) NOT NULL AUTO_INCREMENT,
   `refId` varchar(256) DEFAULT NULL,
-  `value` varchar(256) NOT NULL,
-  `url` varchar(256) NOT NULL,
+  `value` varchar(256) DEFAULT NULL,
+  `label` varchar(45) NOT NULL,
+  `url` varchar(256) DEFAULT NULL,
   `weight` float DEFAULT NULL,
   PRIMARY KEY (`idTopic`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -223,7 +214,7 @@ CREATE TABLE `true_response` (
   `idTopicTrue` int(11) NOT NULL,
   `isGT` bit(1) NOT NULL,
   `score` int(11) NOT NULL DEFAULT '0',
-  `consecutiveAnswer` int(11) NOT NULL DEFAULT '0',
+  `consecutiveAnswer` int(11) NOT NULL DEFAULT '-1',
   `nErrors` int(11) NOT NULL DEFAULT '0',
   `nGTErrors` int(11) NOT NULL DEFAULT '0',
   `played` bit(1) NOT NULL DEFAULT b'0',
@@ -242,14 +233,12 @@ CREATE TABLE `user` (
   `idUser` int(16) NOT NULL AUTO_INCREMENT,
   `firstName` varchar(256) NOT NULL,
   `lastName` varchar(256) NOT NULL,
-  `reputation` float NOT NULL,
   `life_play` int(11) NOT NULL DEFAULT '0',
   `idSocial` varchar(256) NOT NULL,
   `social` varchar(256) NOT NULL,
   `name` varchar(256) DEFAULT NULL,
   `cover` varchar(256) DEFAULT NULL,
   `thumbnail` varchar(256) DEFAULT NULL,
-  `access_token` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`idUser`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -293,3 +282,4 @@ CREATE TABLE `user_reputation` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+-- Dump completed on 2018-03-22 17:13:05

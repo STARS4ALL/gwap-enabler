@@ -37,13 +37,18 @@ $games = $request->json;
 
 $trueResponse = array();
 $isGT = 0;
-$consecutiveAnswer = 0;
+$consecutiveAnswer = -1;
 $score = 0;
 $nErrors = 0;
 $nGTErrors = 0;
 $played = 0;
 
-$query = "SELECT idTopicTrue, T.value AS topicLabel, isGT, score, consecutiveAnswer, nErrors, nGTErrors, played
+$parameters = parameters($mysqli);
+
+$levelPoints = $parameters["levelPoints"];
+$consecutiveLevelPoints = $parameters["consecutiveLevelPoints"];
+
+$query = "SELECT idTopicTrue, T.label AS topicLabel, isGT, score, consecutiveAnswer, nErrors, nGTErrors, played
 		 FROM true_response TR
 		 JOIN topic T on TR.idTopicTrue = T.idTopic
 		 WHERE idRound = '$idRound' AND level = $level
@@ -76,12 +81,12 @@ foreach($games as $gameItem){
 	$idTopic = $gameItem->idTopic;
 	$result = ($trueResponse["idTopicTrue"] == $idTopic);  //$gameItem->result;
 	
-	$distractor = (int)!$result;
-	$choosen = (int)($idTopicSelected == $idTopic);
+	$partnerChosen = (int)$result;
+	$chosen = (int)($idTopicSelected == $idTopic);
 			
 	//INSERT LOGGING		
-	$insert_row = $mysqli->query("INSERT INTO logging (idUser, idTopic, idResource, idRound, idLevel, distractor, choosen)
-		  VALUES ('$idUser', '$idTopic', '$idResource', '$idRound', (SELECT idLevel FROM level WHERE level = $level and idRound = '$idRound'), $distractor, $choosen)");
+	$insert_row = $mysqli->query("INSERT INTO logging (idUser, idTopic, idResource, idRound, idLevel, partnerChosen, chosen)
+		  VALUES ('$idUser', '$idTopic', '$idResource', '$idRound', (SELECT idLevel FROM level WHERE level = $level and idRound = '$idRound'), $partnerChosen, $chosen)");
 
 	if($insert_row){
 		//print 'Success!'; 
@@ -97,12 +102,12 @@ if($idTopicSelected != $trueResponse["idTopicTrue"]) {
 	{
 		$nGTErrors++;
 	}			
-	$consecutiveAnswer = 0;
+	$consecutiveAnswer = -1;
 	
 } else {
 	
 	$consecutiveAnswer++;
-	$score = $score + 50 + (50 * $consecutiveAnswer);	
+	$score = $score + $levelPoints + ($consecutiveLevelPoints * $consecutiveAnswer);	
 }
 	
 $trueResponse["score"] = $score;

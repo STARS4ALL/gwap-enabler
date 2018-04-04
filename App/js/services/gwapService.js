@@ -43,7 +43,7 @@ angular.module("gwap")
             return $http({
 					method  : 'POST',
 		            url     : 'api/userID.php', 
-					data    : { 'firstName': r.first_name, 'lastName': r.last_name, 'idSocial': r.id, 'social': auth.network, 'name': r.name, 'thumbnail': r.thumbnail, 'cover': cover, 'access_token': auth.authResponse.access_token },
+					data    : { 'firstName': r.first_name, 'lastName': r.last_name, 'idSocial': r.id, 'social': auth.network, 'name': r.name, 'thumbnail': r.thumbnail, 'cover': cover }, //'access_token': auth.authResponse.access_token },
 		            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 		    	})
 				.then(function(result) {

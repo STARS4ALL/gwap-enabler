@@ -17,4 +17,9 @@
  *     Andrea Fiano, Gloria Re Calegari, Irene Celino.
  */
  
-INSERT INTO `configuration` (`upperThreshold`,`positiveK`,`nOfLevels`,`maxScore`) VALUES (0.875, 0.25, 6, 3250);
+LOCK TABLES `configuration` WRITE;
+/*!40000 ALTER TABLE `configuration` DISABLE KEYS */;
+INSERT INTO `configuration` VALUES (1,0.875,NULL,0.25,NULL,6,2,50,50,1);
+/*!40000 ALTER TABLE `configuration` ENABLE KEYS */;
+UNLOCK TABLES;
+

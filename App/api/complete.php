@@ -54,7 +54,7 @@ $upperThreshold = $parameters["upperThreshold"];
 $positiveParameter = $parameters["positiveK"];
 $negativeParameter = $parameters["negativeK"];
 $nOfLevels = $parameters["nOfLevels"];
-$maxScore = $parameters["maxScore"];
+$reputationParam = $parameters["reputationParam"];
 
 
 $query = "SELECT level, score, nErrors, nGTErrors FROM true_response
@@ -86,7 +86,7 @@ if($update_endRound){
 //UPDATE USER REPUTATION
 if($levelCounter != 0){
 
-	$updateUserReputation = exp(-(($numberOfGTErrors/5)*3));
+	$updateUserReputation = exp(-($reputationParam*$numberOfGTErrors));
 											 
 	$update_userReputation = $mysqli->query("INSERT INTO user_reputation (idUser, idRound, reputation)
 											  VALUES ('$idUser', '$idRound', '$updateUserReputation')");												

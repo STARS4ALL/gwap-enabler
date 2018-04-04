@@ -62,9 +62,9 @@
 			<img id="img-wrong" ng-style="{'visibility': showAnswerResult == 0 ? 'visible' : 'hidden'}" src="images/icona-wrong-answer.png" class="img-answer" alt="icona-wrong answer">
 		</div>	
 	</div>	
-
+	
 	<div id="game-answer">
-		<div class="partner-agreements text-center" ng-show="showAnswerResult == 2 && consecutiveAnswer > 1">{{consecutiveAnswer}} {{ 'CONSECUTIVE_AGREEMENTS' | translate }}</div>
+		<div class="partner-agreements text-center" ng-show="showAnswerResult == 2 && consecutiveAnswer > 0">{{consecutiveAnswer + 1}} {{ 'CONSECUTIVE_AGREEMENTS' | translate }}</div>
 		<div id="pnl-right" class="partner-affinity text-center" ng-show="showAnswerResult == 2">{{ 'GREAT_UNDERSTANDING' | translate }}</div>
 		<div id="pnl-wrong" ng-show="showAnswerResult == 0">
 			<div class="partner-affinity text-center">{{ 'BAD_LUCK' | translate }}</div>
@@ -78,8 +78,9 @@
 	<div id="pnl-choices" ng-show="showAnswerResult == null">
 
 		<div class="col-md-4 col-xs-6" ng-repeat="game in currentPage.games">
-			<div class="grid-btn">
-				<button ng-class="{'selected' : game.idTopic == selectedIndex}" ng-click="itemClicked(game)" ng-disabled="value.length==1" class="btn btn-block btn-grid">{{game.value | translate}}</button>
+		{{game.idTrueTopic}} </br>
+			<div class="grid-btn">				
+				<button ng-class="{'selected' : game.idTopic == selectedIndex}" ng-click="itemClicked(game)" ng-disabled="value.length==1" class="btn btn-block btn-grid">{{game.label | translate}}</button>
 			</div>
 		</div>
 	</div>	
