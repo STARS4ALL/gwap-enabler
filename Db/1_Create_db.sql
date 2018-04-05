@@ -139,7 +139,7 @@ DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource` (
   `idResource` int(16) NOT NULL AUTO_INCREMENT,
   `refId` varchar(128) NOT NULL,
-  `label` varchar(45) DEFAULT NULL,
+  `label` varchar(128) DEFAULT NULL,
   `lat` double DEFAULT NULL,
   `long` double DEFAULT NULL,
   `url` varchar(256) DEFAULT NULL,
