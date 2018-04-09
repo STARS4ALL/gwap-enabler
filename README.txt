@@ -1,4 +1,4 @@
-The gwap enabler is a framework[1] that allows to design and develop GWAP web applications to solve data linking issue. The linking problems that can be addressed using the enabler are _Link creation_, _Link validation_ and _Link ranking_.
+The gwap enabler is a framework[1] that allows to design and develop GWAP web applications to solve data linking issue. The linking problems that can be addressed using the enabler are Link creation, Link validation and Link ranking.
 
 Each GWAP is a simple casual game organized in rounds; each round is formed by several levels and each level requires the player to perform a single action, which corresponds to the creation, ranking or validation of a link. 
 The GWAP is an output-agreement double-player game: users play in random pairs and the game score is based on the agreement between the answers provided by the player.
