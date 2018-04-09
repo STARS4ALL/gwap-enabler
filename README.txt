@@ -1,17 +1,11 @@
-this is a web application representing the gwap-enabler[1] raw implementation for the NightKnights[2] game, developed under the EU H2020 project STARS4ALL[3]
+The gwap enabler is a framework[1] that allows to design and develop GWAP web applications to solve data linking issue. The linking problems that can be addressed using the enabler are _Link creation_, _Link validation_ and _Link ranking_.
 
-to test it:
-a) run the sql scripts under the Db folder to create and populate the MySQL db used by the application
-b) copy the gwap-enabler/App folder under the root of a web server to reach it in a browser from http:/localhost/gwap-enabler/app
-c) change the connection params in gwap-enabler/App/secret/globals.php
-d) install composer[5] and run ``` composer require "spomky-labs/jose:^7.0" ``` from command shell under the gwap-enabler/App/api folder for PHP 7.0+; for PHP 5.6 run ``` composer require "spomky-labs/jose:^6.1" ``` instead[6]
+Each GWAP is a simple casual game organized in rounds; each round is formed by several levels and each level requires the player to perform a single action, which corresponds to the creation, ranking or validation of a link. 
+The GWAP is an output-agreement double-player game: users play in random pairs and the game score is based on the agreement between the answers provided by the player.
+The game adopts a repeated linking approach by asking different players to address the same data linking task; conversely, the same task is never given twice to the same player. The “true” solution of a data linking task, therefore, comes from the aggregation of the answers provided by all the users who “played” the task in any game round.
+To engage users a set of gamification tools has been embedded in the framework, such as points, leaderboards and badges. 
 
-to enable a social network login register the app in the corresponding registration page and update the index.html with the corresponding client ID obtained;
-for twitter you need to register it also on the HelloJS[4] proxy service at https://auth-server.herokuapp.com/
+The gwap-enabler has been developed under the EU H2020 project STARS4ALL[2].
 
 [1] https://figshare.com/s/b7cf82ff5dbdde50395d
-[2] https://figshare.com/s/5bd9c9f96c8dcee121b5
-[3] http://www.stars4all.eu/
-[4] http://adodson.com/hello.js/
-[5] https://getcomposer.org/
-[6] https://github.com/Spomky-Labs/jose
+[2] http://www.stars4all.eu/
